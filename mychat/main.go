@@ -33,24 +33,32 @@ func main() {
 
 }
 
-func index(w http.ResponseWriter, r *http.Request) {
+func index(writer http.ResponseWriter, request *http.Request) {
 
-	files := []string{
-		"templates/layout.html",
-		"templates/navbar.html",
-		"templates/index.html",
+	threads, err := data.Threads()
+	if err == nil {
+		_, err := session(writer, request)
 	}
 
-	templates := template.Must(template.ParseFiles(files...))
+	public_tmpl_files := []string{"templates/layout.html",
+		"templates/public.navbar.html",
+		"templates/index.html"}
+	private_tmpl_files := []string{"templates/layout.html",
+		"templates/private.navbar.html",
+		"templates/index.html"}
 
-	threads, err := data.threads()
+	var templates *template.Template
 
 	if err != nil {
-		templates.ExecuteTemplate(w, "layout", threads)
+		templates = template.Must(template.ParseFiles(private_tmpl_files...))
+	} else {
+		templates = template.Must(template.ParseFiles(public_tmpl_files...))
 	}
+
+	templates.ExecuteTemplate(writer, "layout", threads)
 }
 
-func authenticate(w http.ResponseWriter, r * http.Request) {
+func authenticate(w http.ResponseWriter, r *http.Request) {
 
 	r.ParseForm()
 

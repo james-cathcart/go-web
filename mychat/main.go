@@ -49,3 +49,4 @@ func index(w http.ResponseWriter, r *http.Request) {
 		templates.ExecuteTemplate(w, "layout", threads)
 	}
 }
+

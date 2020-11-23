@@ -4,9 +4,12 @@ version: '3.8'
 services:
 
   chitchat-db:
-    image: postgres
+    build:
+      context: .
     ports:
     - "5432:5432"
     restart: always
     environment:
-      POSTGRES_PASSWORD: wwdev
+      POSTGRES_USER: chitchat
+      POSTGRES_PASSWORD: chitchatpass
+      POSTGRES_DB: chitchat

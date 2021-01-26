@@ -1,0 +1,15 @@
+---
+version: "3.8"
+
+services:
+
+  my-chat-db:
+    container_name: "my-chat-db"
+    image: "mychat-psql"
+    build:
+      context: .
+    volumes:
+      - "my-chat-vol:/var/lib/postgresql/data"
+
+volumes:
+  my-chat-vol:
